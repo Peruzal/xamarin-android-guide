@@ -1,0 +1,31 @@
+site_name: Xamarin Android Guide - Peruzal
+
+theme: material
+
+nav:
+  - Introduction: index.md
+  - Project Structure: project-structure.md
+  - Android Components: android-components.md
+  - Common Views: common-views.md
+  - Menus: menus.md
+  - App Resources: app-resources.md
+  - Layouts: layouts.md
+  - Activities: activities.md
+  - RecyclerView: recyclerview.md
+  - Navigation: navigation.md
+  - Fragments: fragments.md
+  - Dialogs and Pickers: dialogs.md
+  - Common Intents: common-intents.md
+  - Networking: networking.md
+  - Permissions: permissions.md
+  - Persistence: persistence.md
+  - Styles and Themes: styles-and-themes.md
+  - Animation: animations.md
+  - Notifications: notifications.md
+  - Broadcast Receivers: broadcast-receivers.md
+  - Services: services.md
+  - Scheduling Alarms: scheduling-alarms.md
+  - Maps and Location: maps-and-location.md
+  - Testing: testing.md
+  - Third Party Libraries: third-party-libraries.md
+  - Deployment: deployment.md
