@@ -1,17 +1,12 @@
 # Introduction to Xamarin Android
 
-For full documentation visit [mkdocs.org](https://mkdocs.org).
+## Welcome to Xamarin Android Guides
 
-## Commands
+Welcome to the guides to support the Xamarin Android Guides. The guides are intended to be used to support the course.
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs help` - Print this help message.
+## Target Audience
 
-## Project layout
+- Developers
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+Some development knowledge is required as most of the tools required reading at code. You don't need to proficient but be in a position
+to write and compile programs.
