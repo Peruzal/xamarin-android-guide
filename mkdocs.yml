@@ -1,6 +1,19 @@
 site_name: Xamarin Android Guide - Peruzal
 
-theme: material
+theme:
+  name: material
+  logo: 'images/logo.png'
+  favicon: 'images/favicon.ico'
+  palette:
+    primary: 'orange'
+    accent: 'orange'
+
+markdown_extensions:
+  - admonition
+  - codehilite: 
+      linenums: true
+
+copyright: 'Copyright &copy; 2019 - <a href="https://www.peruzal.com">Peruzal</a>'
 
 nav:
   - Introduction: index.md
