@@ -17,7 +17,7 @@ copyright: 'Copyright &copy; 2019 - <a href="https://www.peruzal.com">Peruzal</a
 
 nav:
   - Introduction: index.md
-  - Project Structure: project-structure.md
+  - Hello Xamarin.Android: hello-xamarin-android.md
   - Android Components: android-components.md
   - Common Views: common-views.md
   - Menus: menus.md
