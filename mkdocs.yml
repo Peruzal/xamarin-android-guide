@@ -12,6 +12,13 @@ markdown_extensions:
   - admonition
   - codehilite: 
       linenums: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.mark
+
+google_analytics:
+  - 'UA-40772582-8'
+  - 'auto'
 
 copyright: 'Copyright &copy; 2019 - <a href="https://www.peruzal.com">Peruzal</a>'
 
