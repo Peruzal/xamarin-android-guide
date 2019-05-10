@@ -15,10 +15,14 @@ markdown_extensions:
   - pymdownx.details
   - pymdownx.superfences
   - pymdownx.mark
+  - pymdownx.arithmatex
 
 google_analytics:
   - 'UA-40772582-8'
   - 'auto'
+
+extra_javascript:
+  - 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'
 
 copyright: 'Copyright &copy; 2019 - <a href="https://www.peruzal.com">Peruzal</a>'
 
