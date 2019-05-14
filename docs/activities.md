@@ -385,8 +385,22 @@ public class ChatActivity : AppCompatActivity
 
 ![Up Button Implementation][5]
 
+## Activity life cycle
+
+The activity lifecycle is the set of states an activity can be in during its entire lifetime, from the time it's created to when it's destroyed and the system reclaims its resources. 
+
+![Activity stack][6]
+
+## Activity life cycle and callback methods
+
+When an Activity transitions into and out of the different lifecycle states as it runs, the Android system calls several lifecycle callback methods at each stage. All of the callback methods are hooks that you can override in each of your Activity classes to define how that Activity behaves when the user leaves and re-enters the Activity.
+
+![Life cycle methods][7]
+
 [1]: images/email-app-activities.png
 [2]: images/diagram_backstack.png
 [3]: images/overview-screen.png
 [4]: images/up_navigation_in_app_bar_cropped.png
 [5]: images/up-button-implementation.png
+[6]: images/activity-stack.png
+[7]: images/basic-lifecycle.png
