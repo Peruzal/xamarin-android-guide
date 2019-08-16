@@ -1,5 +1,5 @@
 site_name: Xamarin Android Guide - Peruzal
-
+repo_url: https://github.com/Peruzal/xamarin-android-guide
 theme:
   name: material
   logo: 'images/logo.png'
@@ -24,12 +24,14 @@ google_analytics:
 extra_javascript:
   - 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'
 
+
 copyright: 'Copyright &copy; 2019 - <a href="https://www.peruzal.com">Peruzal</a>'
 
 nav:
   - Introduction: index.md
   - Hello Xamarin.Android: hello-xamarin-android.md
   - Android Components: android-components.md
+  - Android Views: android-views.md
   - Common Views: common-views.md
   - Menus: menus.md
   - App Resources: app-resources.md

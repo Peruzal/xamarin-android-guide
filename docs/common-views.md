@@ -1,667 +1,6 @@
 # Android Common Views
 
 This chapter describes the common UI views used to compose your Xamarin.Android app. The views in Xamarin.Android are wrappers of the natives Android views. 
-## Views
-
-The UI consists of a hierachy of objects called views - every element on the screen is a View. The `View` represents the basic building block for all UI components, and the base class for classes that provide interactive UI components such as button, checkboxes, and text entry fields.
-
-A view consists of :
-
-- two required dimensions expressed as width and height
-- the unit for dimensions is in density-independent pixel(dpi)
-
-Common frequently used views are :
-
-- `TextView`
-- `EditText`
-- `Button`
-- `ImageView`
-- `ScrollView`, `ListView` and `RecyclerView` used for displaying scrollable items
-- `LinearLayout` used for containing other views
-- `RelativeLayout` used for containing other views
-
-You can specify `View` elements in layout resources. Layout resources are written in XML and listed within the **Resources** -> **layout**.
-
-## ViewGroup containers
-
-Views can be grouped inside a container. The base class for the Android container is the `ViewGroup`. When you define views, the views will be inside a `ViewGroup`. In Android, a the `ViewGroups` can be nested created a parent-child relationship.
-
-![View Group][1]
-
-1. The **root** of the ViewGroup
-2. The first set of child `View` elements and `ViewGroup` groups whose parent is **root**.
-
-Some `ViewGroup` are designed as layouts because they organize child View elements in a specific way. Some examples layout `ViewGroups` are:
-
-- CoordinatorLayout
-- DrawerLayout
-- LinearLayout
-- Relativelayout
-- Framelayout
-- RecyclerView
-- GridLayout
-
-![Viewgroup example][2]
-
-In the figure above:
-
-1. `LinearLayout`, the root `ViewGroup`, contains all the child `View` elements in a vertical orientation.
-2. `Button` (button_toast). The first child `View` element appears at the top in the LinearLayout.
-3. `TextView` (show_count). The second child `View` element appears under the first child `View` element in the LinearLayout.
-4. `Button` (button_count). The third child `View` element appears under the second child `View` element in the LinearLayout.
-
-!!! danger "View Performance"
-    The layout hierarchy can grow to be complex for an app that shows many `View` elements on a screen. Deep nested `ViewGroups` can cause performance issues. Its recommended to use layouts that can accomplish flat layouts e.g using the `ConstraintLayout` instead of the `LinearLayout`. You should try to avoid nesting more than three levels deep.
-
-
-## View Properties
-
-Views have two required properties, `width` and `height`. These two properties are set using the `android:layout_width` and `android:layout_height`. Another important property is the `id` property, this is used to name the views so that they can be referenced in code and in other parts of the layout file.
-
-### Automatic view sizing
-
-There are two special values you can use to specify width and height
-
-- Use the `match_parent` to take the full width or height as the parent view.
-- Use the `wrap_content` just large enough to fit the content. 
-
-The following defines the parent layout to match both the width and height of the phone :
-
-```xml hl_lines="2 3"
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    ...
-</RelativeLayout>    
-```
-
-### Attribute form
-
-Attributes generally take the form:
-
-`android`:attribute_name="_value_"
-
-If the value is a resource, the `@` specifies what kind of resource, e.g
-
-`android:text="@string/greeting"`
-
-The `greeting` is defined in the **Resources** -> **strings.xml** as follows :
-
-```xml
-<resources>
-    ...
-    <string name="greeting">Hello World!</string>
-</resources>
-```
-
-!!! note "`android` namespace"
-    View attributes must be prefixed with the Android namespace when defined in XML. Some libraries define their own namespace. You should use those for additional attributes.
-    ```xml
-        <RelativeLayout 
-            xmlns:android="http://schemas.android.com/apk/res/android">
-        </RelativeLayout>
-    ```
-
-    The `app` namespaace is also defined for this layout:
-    ```xml
-    <RelativeLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto">
-    </RelativeLayout>
-    ```
-
-## Identifying a View
-
-To uniquely identify a View and reference it from code or other resources, you must give it an id.
-
-### Define the id
-
-The `android:id` is used to define the id in XML. To define a new id use the `@+id/name-of-id` as follows:
-
-```xml hl_lines="2"
-<TextView
-    android:id="@+id/title"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/greeting" />
-```
-
-Line 1 defines an id, title, for the TextView.
-
-### Referencing the View from code
-
-Once an id is defined, we can now reference the View from code. The id can referenced using the `Resource.Id.title` as follows:
-
-```cs
-TextView textView = FindViewById<TextView>(Resource.Id.title);
-```
-
-We can now access the properties defined in the `TextView` using the `textView` variable.
-
-We use the generic `FindViewById<T>` to find the view by the id.
-
-!!! info "Ids are integer numbers"
-    The id's are integer numbers that are automatically generated. Its efficient not use numbers that the associated string name.
-
-!!! error "Id not generated"
-    Sometimes though, if you have an error somewhere in your code the id will not be generated. Try clean and build for Visual studio to re-generate the ids.
-
-
-### Referencing the View from other Views
-
-You can also reference the View using its id from other views by using the `@id/<name>`. `name` referencing the name of a predefined id. Notice that we no long have the <kbd>+</kbd> sign. Here is an example of the view being referencing in an xml layout file :
-
-```xml hl_lines="2 7"
-<EditText
-    android:id="@+id/edit_username"
-    android:hint="Username"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
-<EditText
-    android:layout_below="@id/edit_username"
-    android:id="@+id/edit_password"
-    android:hint="Password"
-    android:inputType="textPassword"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
-```
-
-In **line 2**, we are defining the id for the `username` text field, then later on, we want the `password` field to be below the username text field, so we reference the `edit_username` id in **line 7**. The parent `ViewGroup` is a `RelativeLayout`. The xml produces the layout as below:
-
-![Defining Id Layout][3]
-
-## View Positioning
-
-Besides the width and height and id, the view also need to be positioned. Some layout-related positioning attributes are required for a View or a ViewGroup.
-
-### LinearLayout Positioning
-
-LinearLayout is required to have these attributes set:
-
-- `android:layout_width`
-- `android:layout_height`
-- `android:orientation`
-
-The `android:orientation` can be:
-
-`horizontal`: Views are arranged from left to right.
-`vertical`: Views are arranged from top to bottom.
-
-Other layout-related attributes include:
-
-`android:layout_gravity`: This attribute is used with a UI element to control where the element is arranged within its parent. For example, the following attribute centers the UI element horizontally within the parent ViewGroup:
-
-```xml
-android:layout_gravity="center_horizontal"
-```
-
-### RelativeLayout Positioning
-
-Another useful `Viewgroup` for layout is `RelativeLayout`, which you can use to position child View elements relative to each other or to the parent. The attributes you can use with `RelativeLayout` include the following:
-
-- `android:layout_toLeftOf`: Positions the right edge of this View to the left of another View (identified by its ID).
-- `android:layout_toRightOf`: Positions the left edge of this View to the right of another View (identified by its ID).
-- `android:layout_centerHorizontal`: Centers this View horizontally within its parent.
-- `android:layout_centerVertical`: Centers this View vertically within its parent.
-- `android:layout_alignParentTop`: Positions the top edge of this View to match the top edge of the parent.
-- `android:layout_alignParentBottom`: Positions the bottom edge of this View to match the bottom edge of the parent.
-
-### Padding
-
-The other view attribute you will need to adjust is the padding. You can change padding for the left, top, right and bottom of the view. Padding can be change for all sides or individually.
-
-![Padding][4]
-
-In the figure above: (1) Padding is the space between the edges of the TextView (dashed lines) and the content of the TextView (solid line). 
-
-!!! info "Padding vs Margin"
-    Padding is not the same as margin, which is the space from the edge of the View to its parent. Padding affects the space inside the view.
-
-
-The size of a View includes its padding. The following are commonly used padding attributes:
-
-- `android:padding`: Sets the padding of all four edges.
-- `android:paddingTop`: Sets the padding of the top edge.
-- `android:paddingBottom`: Sets the padding of the bottom edge.
-- `android:paddingLeft`: Sets the padding of the left edge.
-- `android:paddingRight`: Sets the padding of the right edge.
-
-## Style-related attributes
-
-The view can be customized using appearance attributes. Some attributes e.g android:textColor, android:textSize, and android:background are specified in the main theme. Here are some attributes you can change for the view:
-
-- `android:background`: Specifies a color or drawable resource to use as the background.
-- `android:text`: Specifies text to display in the view.
-- `android:textColor`: Specifies the text color.
-- `android:textSize`: Specifies the text size.
-- `android:textStyle`: Specifies the text style, such as bold.
-
-## Android Views
-
-Android views can be created with either code or `XML`. The most common way is to create Android UIs using XML.
-Views are created inside layouts. Layouts are the container views.
-
-![alt](/images/android-common-views.png)
-
-
-### View dimensions
-
-You can use px(pixel), pt(points 1/72') or in(inch) and mm for sizing but they are not recommended since they do not adapt to different screen displays.
-
-```xml
-<TextView android:layout_width="500px" .../>
-```
-
-The above `TextView` will always occupy 100 physical pixels, so the TextView will look different on different screen sizes.
-
-!!! info "View dimensions should be defined using dp"
-    View should be are defined in density independent pixels(dp). 1dp = 1px on a screen with 160dpi screen.
-
-```xml
-<TextView android:layout_width="100dp" .../>
-```
-
-The above will occupy 100 physical pixels on a 160dpi(dots per inch) screen.
-
-??? question "Where does 160dpi come from"
-    The baseline density is derived from the screen of the G1, the first Android device.
-
-
-The formula to convert dp to pixels is **$px = dp * \frac{dpi}{160}$**
-
-The following `TextView`
-
-```xml
-<TextView android:layout_width="100dp" .../>
-```
-
-on a 480dpi screen would be
-
-$100dp * \frac{480dpi}{160} = 300px$
-
-## TextView
-
-Displays text to the user and optionally allows them to edit it. A TextView is a complete text editor, however the basic class is configured to not allow editing; see `EditText` for a subclass that configures the text view for editing.
-
-### Typeface
-
-As stated in the overview, there are three different default typefaces which are known as the Droid family of fonts: `sans`, `monospace` and `serif`. You can specify any one of them as the value for the `android:typeface` attribute in the XML:
-
-```xml
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="This is a 'sans' demo!"
-    android:typeface="sans"
-/>
-```
-
-Here's how they look:
-
-<img alt="fonts" src="http://i.imgur.com/BES7g98.png" width="400" />
-
-In addition to the above, there is another attribute value named "normal" which defaults to the sans typeface.
-
-### Text Style
-
-The `android:textStyle` attribute can be used to put emphasis on the text. The possible values are: `normal`, `bold`, `italic`. You can also specify `bold|italic`.
-
-```xml
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="This is bold!"
-    android:textStyle="bold"
-/>
-```
-
-A sampling of styles can be seen below:
-
-<img alt="style" src="http://i.imgur.com/BcX2r9O.png" width="400" />
-
-### Text Size
-
-`android:textSize` specifies the font size. Its value must consist of two parts: a floating-point number followed by a unit. It is generally a good practice to use the `sp` unit so the size can scale depending on user settings.
-
-```xml
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="14sp is the 'normal' size."
-    android:textSize="14sp"
-/>
-```
-
-A sampling of styles can be seen below:
-
-<img alt="style" src="http://i.imgur.com/4pimMzN.png" width="400" />
-
-Too many type sizes and styles at once can wreck any layout. The basic set of styles are based on a typographic scale of 12, 14, 16, 20, and 34. Refer to this [typography styles guide](https://www.google.com/design/spec/style/typography.html#typography-styles) for more details.
-
-### Text Truncation
-
-There are a few ways to truncate text within a `TextView`. First, to restrict the total number of lines of text we can use `android:maxLines` and `android:minLines`:
-
-```xml
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:minLines="1"
-    android:maxLines="2"
-/>
-```
-
-In addition, we can use `android:ellipsize` to begin truncating text 
-
-```xml
-<TextView
-    ...
-    android:ellipsize="end"
-    android:singleLine="true"
-/>
-```
-
-Following values are available for `ellipsize`: `start` for `...bccc`, `end` for `aaab...`, `middle` for `aa...cc`, and `marquee` for `aaabbbccc` sliding from left to right. Example:
-
-<img alt="style" src="http://i.imgur.com/NoKo7Ou.png" width="400" />
-
-There is a known issue with **ellipsize and multi-line text**, see [this MultiplelineEllipsizeTextView library](https://github.com/IPL/MultiplelineEllipsizeTextView) for an alternative.
-
-### Text Color
-
-The `android:textColor` and `android:textColorLink` attribute values are hexadecimal RGB values with an optional alpha channel, similar to what's found in CSS:
-
-```xml
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="A light blue color."
-    android:textColor="#00ccff"
-    android:textColorLink="#8DE67F"
-/>
-```
-
-The `android:textColorLink` attribute controls the highlighting for [[hyperlinks embedded within the TextView|Working-with-the-TextView#inserting-html-formatting]]. This results in:
-
-![](http://i.imgur.com/UlLSrEG.png)
-
-### Text Shadow
-
-You can use three different attributes to customize the appearance of your text shadow:
-
- * `android:shadowColor` - Shadow color in the same format as textColor.
- * `android:shadowRadius` - Radius of the shadow specified as a floating point number.
- * `android:shadowDx` - The shadow's horizontal offset specified as a floating point number.
- * `android:shadowDy` - The shadow's vertical offset specified as a floating point number.
-
-The floating point numbers don't have a specific unit - they are merely arbitrary factors.
-
-```xml
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="A light blue shadow."
-    android:shadowColor="#00ccff"
-    android:shadowRadius="2"
-    android:shadowDx="1"
-    android:shadowDy="1"
-/>
-```
-
-This results in:
-
-![](http://i.imgur.com/blFEHxX.png)
-
-### Various Text Properties
-
-There are many other text properties including `android:lineSpacingMultiplier`, `android:letterSpacing`, `android:textAllCaps`, `android:includeFontPadding` and [many others](http://developer.android.com/reference/android/widget/TextView.html#nestedclasses):
-
-```xml
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:lineSpacingMultiplier="1.1"
-    android:textAllCaps="true"
-/>
-```
-
-`android:includeFontPadding` removes the extra padding around large fonts. `android:lineSpacingMultiplier` governs the spacing between lines with a default of "1".
-
-## Inserting HTML Formatting
-
-TextView natively supports [HTML](http://developer.android.com/reference/android/text/Html.html) by translating HTML tags to [spannable](http://developer.android.com/reference/android/text/Spannable.html) sections within the view. To apply basic HTML formatting to text, add text to the TextView with:
-
-```cs
-TextView view = (TextView)FindViewById(Resource.Id.sampleText);
-//Htmlformatted text
-String formattedText = "This <i>is</i> a <b>test</b> of <a href='http://foo.com'>html</a>";
-//Check which build we running on and use the appropriate method
-if (Build.VERSION.SdkInt >= BuildVersionCodes.N)
-{
-    view.Text = (Html.FromHtml(formattedText, FromHtmlOptions.ModeLegacy));
-}
-else { 
-    view.Text = (Html.FromHtml(formattedText));
-}
-```
-
-This results in:
-
-![](http://i.imgur.com/PEl2EKl.png)
-
-Note that all tags are not supported. See [this article](http://javatechig.com/android/display-html-in-android-textview) for a more detailed look at supported tags and usages
-
-
-### Setting Font Colors
-
-For setting font colors, we can use the `<font>` tag as shown:
-
-```cs
-Html.FromHtml("Nice! <font color='#c5c5c5'>This text has a color</font>. This doesn't"); 
-```
-
-And you should be all set. 
-
-### Storing Long HTML Strings
-
-If you want to store your HTML text within `res/values/strings.xml`, you have to use CDATA to escape such as:
-
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<string name="htmlFormattedText">
-    <![CDATA[
-        Please <a href="http://highlight.com">let us know</a> if you have <b>feedback on this</b> or if 
-        you would like to log in with <i>another identity service</i>. Thanks!   
-    ]]>
-</string>
-```
-
-and access the content with `getString(R.string.htmlFormattedText)` to load this within the TextView. 
-
-For more advanced cases, you can also check out the [html-textview](https://github.com/dschuermann/html-textview) library which adds support for almost any HTML tag within this third-party TextView.
-
-## Autolinking URLs
-
-TextView has [native support](http://developer.android.com/reference/android/widget/TextView.html#attr_android:autoLink) for automatically locating URLs within the their text content and making them clickable links which can be opened in the browser. To do this, enable the `android:autolink` property:
-
-```xml
-<TextView
-     android:id="@+id/custom_font"
-     android:layout_width="match_parent"
-     android:layout_height="wrap_content"
-     android:autoLink="all"
-     android:linksClickable="true"
-/>
-```
-
-This results in:
-
-![](http://i.imgur.com/73bwaRm.png)
-
-## Displaying Images within a TextView
-
-A TextView is actually surprisingly powerful and actually supports having images displayed as a part of it's content area. Any images stored in the "drawable" folders can actually be embedded within a TextView at several key locations in relation to the text using the [android:drawableRight](http://developer.android.com/reference/android/widget/TextView.html#attr_android:drawableRight) and the `android:drawablePadding` property. For example:
-
-```xml
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"     
-    android:gravity="center"
-    android:text="@string/my_contacts"
-    android:drawableRight="@drawable/ic_action_add_group"
-    android:drawablePadding="8dp"
-/>
-```
-
-Which results in:
-
-![Contacts View](https://i.imgur.com/LoN8jpH.png)
-
-In Android, many views inherit from `TextView` such as `Button`s, `EditText`s, `RadioButton`s which means that all of these views support the same functionality. For example, we can also do:
-
-```xml
-<EditText
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:hint="@string/user_name"
-    android:drawableLeft="@drawable/ic_action_person"
-    android:drawablePadding="8dp"
-/>
-```
-
-Which results in:
-
-![EditText with drawable](https://i.imgur.com/GZiIf1C.png)
-
-The relevant attributes here are `drawableLeft`, `drawableRight`, `drawableTop` and `drawableBottom` along with `drawablePadding`. Check out [this TextView article](http://antonioleiva.com/textview_power_drawables/) for a more detailed look at how to use this functionality. 
-
-Note that if you want to be able to better control the size or scale of the drawables, check out [this handy TextView extension](http://stackoverflow.com/a/31916731/313399) or [this bitmap drawable approach](http://stackoverflow.com/a/29804171/313399). You can also make calls to [setCompoundDrawablesWithIntrinsicBounds](https://groups.google.com/forum/#!topic/android-developers/_Gzbe0KCP_0) on the `TextView`.
-
-## Using Custom Fonts
-
-We can actually use any custom font that we'd like within our applications. Check out [fontsquirrel](http://www.fontsquirrel.com/) for an easy source of free fonts. For example, we can download [Chantelli Antiqua](http://www.fontsquirrel.com/fonts/Chantelli-Antiqua) as an example. 
-
-Fonts are stored in the "assets" folder. In Android Studio, `File > New > folder > Assets Folder`. Now download any font and **place the TTF file in the `assets/fonts` directory**:
-
-![](http://i.imgur.com/2dxTeGY.png)
-
-We're going to use a basic layout file with a `TextView`, marked with an id of "custom_font" so we can access it in our code.
-
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
- 
-    <TextView
-            android:id="@+id/custom_font"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="This is the Chantelli Antiqua font."
-    />
-</LinearLayout>
-```
-
-To set the custom font manually, open your activity file and insert this into the `onCreate()` method:
-
-```java
-// Get access to our TextView
-TextView txt = (TextView) findViewById(R.id.custom_font);
-// Create the TypeFace from the TTF asset
-Typeface typeface = Typeface.CreateFromAsset(Assets, "fonts/Chantelli_Antiqua.ttf");
-//Assign the typeface
-view.SetTypeface(typeface, TypefaceStyle.Normal);
-```
-
-Alternatively, you can use the third-party [calligraphy library](https://github.com/chrisjenx/Calligraphy):
-
-```
-<TextView fontPath="fonts/Chantelli_Antiqua.ttf"/>
-```
-
-Either method will will result in:
-
-<img alt="custom" src="http://i.imgur.com/jlTQpEY.png" width="400" />
-
-You'll also want to keep an eye on the total size of your custom fonts, as this can grow quite large if you're using a lot of different typefaces. 
-
-
-## Using Spans to Style Sections of Text
-
-Spans come in really handy when we want to apply styles to portions of text within the same TextView. We can change the text color, change the typeface, add an underline, etc, and apply these to only certain portions of the text. The [full list of spans](http://developer.android.com/reference/android/text/style/package-summary.html) shows all the available options.
-
-As an example, let's say we have a single TextView where we want the first word to show up in red and the second word to have a strikethrough:
- 
-![Custom](https://i.imgur.com/X9tKFmv.png)
-
-We can accomplish this with spans using the code below:
-
-```cs
-TextView textView = (TextView)FindViewById(Resource.Id.textView);
-var firstWord = "Hello";
-var secondWord = "World";
-
-var redForegroundColorSpan = new ForegroundColorSpan(Color.Red);
-
-// Use a SpannableStringBuilder so that both the text and the spans are mutable
-SpannableStringBuilder ssb = new SpannableStringBuilder(firstWord);
-
-// Apply the color span
-ssb.SetSpan(
-        redForegroundColorSpan,            	// the span to add
-        0,                                 	// the start of the span (inclusive)
-        ssb.Length(),                     	// the end of the span (exclusive)
-        SpanTypes.ExclusiveExclusive); 		// behavior when text is later inserted into the SpannableStringBuilder
-                                            // SPAN_EXCLUSIVE_EXCLUSIVE means to not extend the span when additional
-                                            // text is added in later
-
-// Add a blank space
-ssb.Append(" ");
-
-// Create a span that will strikethrough the text
-StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
-
-// Add the secondWord and apply the strikethrough span to only the second word
-ssb.Append(secondWord);
-ssb.SetSpan(
-        strikethroughSpan,
-    ssb.Length() - secondWord.Length,
-        ssb.Length(),
-    SpanTypes.ExclusiveExclusive);
-
-// Set the TextView text and denote that it is Editable
-// since it's a SpannableStringBuilder
-textView.SetText(ssb, TextView.BufferType.Editable);
-```
-
-Note: There are 3 different classes that can be used to represent text that has markup attached. [SpannableStringBuilder](http://developer.android.com/reference/android/text/SpannableStringBuilder.html) (used above) is the one to use when dealing with mutable spans and mutable text. [SpannableString](http://developer.android.com/reference/android/text/SpannableString.html) is for mutable spans, but immutable text. And [SpannedString](http://developer.android.com/reference/android/text/SpannedString.html) is for immutable spans and immutable text.
-
-### Creating Clickable Styled Spans
-
-In certain cases, we might want different substrings in a `TextView` to different styles and then clickable to trigger an action. For example, rendering tweet items where `@foo` can be clicked in a message to view a user's profile. For this, you should copy over the [PatternEditableBuilder.java](https://gist.github.com/nesquena/f2504c642c5de47b371278ee61c75124#file-patterneditablebuilder-java) utility into your app. You can then use this utility to make clickable spans. For example:
-
-```java
-// Set text within a `TextView`
-TextView textView = (TextView) findViewById(R.id.textView);
-textView.setText("Hey @sarah, where did @jim go? #lost");
-// Style clickable spans based on pattern
-new PatternEditableBuilder().
-    addPattern(Pattern.compile("\\@(\\w+)"), Color.BLUE,
-       new PatternEditableBuilder.SpannableClickedListener() {
-            @Override
-            public void onSpanClicked(String text) {
-                Toast.makeText(MainActivity.this, "Clicked username: " + text,
-                    Toast.LENGTH_SHORT).show();
-            }
-       }).into(textView);
-```
-
-and this results in the following:
-
-<img src="http://i.imgur.com/OHFMMTc.gif" width="500" />
-
-For more details, [view the README](https://gist.github.com/nesquena/f2504c642c5de47b371278ee61c75124#file-readme-md) for more usage examples. 
-
 
 ## Button
 
@@ -690,10 +29,6 @@ If we want the button's width to be the same as its parent, we would change the 
     android:layout_height="wrap_content"
     android:text="LOGIN" />
 ```
-
-In Android Studio, we can preview the effect of the `wrap_content` property on the width of the button.
-
-![View Properties](/images/view-properties.png)
 
 ### Drawables on buttons
 
@@ -1445,11 +780,360 @@ A search view that you type a query into.
         android:queryHint="Search photos" />
 ```        
 
-## DatePickers
 
-## Video Summary
-{{< youtube DkJGjFy4mRc >}}
+## TextView
 
+Displays text to the user and optionally allows them to edit it. A TextView is a complete text editor, however the basic class is configured to not allow editing; see `EditText` for a subclass that configures the text view for editing.
+
+### Typeface
+
+As stated in the overview, there are three different default typefaces which are known as the Droid family of fonts: `sans`, `monospace` and `serif`. You can specify any one of them as the value for the `android:typeface` attribute in the XML:
+
+```xml
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="This is a 'sans' demo!"
+    android:typeface="sans"
+/>
+```
+
+Here's how they look:
+
+<img alt="fonts" src="http://i.imgur.com/BES7g98.png" width="400" />
+
+In addition to the above, there is another attribute value named "normal" which defaults to the sans typeface.
+
+### Text Style
+
+The `android:textStyle` attribute can be used to put emphasis on the text. The possible values are: `normal`, `bold`, `italic`. You can also specify `bold|italic`.
+
+```xml
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="This is bold!"
+    android:textStyle="bold"
+/>
+```
+
+A sampling of styles can be seen below:
+
+<img alt="style" src="http://i.imgur.com/BcX2r9O.png" width="400" />
+
+### Text Size
+
+`android:textSize` specifies the font size. Its value must consist of two parts: a floating-point number followed by a unit. It is generally a good practice to use the `sp` unit so the size can scale depending on user settings.
+
+```xml
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="14sp is the 'normal' size."
+    android:textSize="14sp"
+/>
+```
+
+A sampling of styles can be seen below:
+
+<img alt="style" src="http://i.imgur.com/4pimMzN.png" width="400" />
+
+Too many type sizes and styles at once can wreck any layout. The basic set of styles are based on a typographic scale of 12, 14, 16, 20, and 34. Refer to this [typography styles guide](https://www.google.com/design/spec/style/typography.html#typography-styles) for more details.
+
+### Text Truncation
+
+There are a few ways to truncate text within a `TextView`. First, to restrict the total number of lines of text we can use `android:maxLines` and `android:minLines`:
+
+```xml
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minLines="1"
+    android:maxLines="2"
+/>
+```
+
+In addition, we can use `android:ellipsize` to begin truncating text 
+
+```xml
+<TextView
+    ...
+    android:ellipsize="end"
+    android:singleLine="true"
+/>
+```
+
+Following values are available for `ellipsize`: `start` for `...bccc`, `end` for `aaab...`, `middle` for `aa...cc`, and `marquee` for `aaabbbccc` sliding from left to right. Example:
+
+### Text Color
+
+The `android:textColor` and `android:textColorLink` attribute values are hexadecimal RGB values with an optional alpha channel, similar to what's found in CSS:
+
+```xml
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="A light blue color."
+    android:textColor="#00ccff"
+    android:textColorLink="#8DE67F"
+/>
+```
+
+The `android:textColorLink` attribute controls the highlighting for [[hyperlinks embedded within the TextView|Working-with-the-TextView#inserting-html-formatting]]. This results in:
+
+![](http://i.imgur.com/UlLSrEG.png)
+
+### Text Shadow
+
+You can use three different attributes to customize the appearance of your text shadow:
+
+ * `android:shadowColor` - Shadow color in the same format as textColor.
+ * `android:shadowRadius` - Radius of the shadow specified as a floating point number.
+ * `android:shadowDx` - The shadow's horizontal offset specified as a floating point number.
+ * `android:shadowDy` - The shadow's vertical offset specified as a floating point number.
+
+The floating point numbers don't have a specific unit - they are merely arbitrary factors.
+
+```xml
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="A light blue shadow."
+    android:shadowColor="#00ccff"
+    android:shadowRadius="2"
+    android:shadowDx="1"
+    android:shadowDy="1"
+/>
+```
+
+This results in:
+
+![](http://i.imgur.com/blFEHxX.png)
+
+### Various Text Properties
+
+There are many other text properties including `android:lineSpacingMultiplier`, `android:letterSpacing`, `android:textAllCaps`, `android:includeFontPadding` and [many others](http://developer.android.com/reference/android/widget/TextView.html#nestedclasses):
+
+```xml
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:lineSpacingMultiplier="1.1"
+    android:textAllCaps="true"
+/>
+```
+
+`android:includeFontPadding` removes the extra padding around large fonts. `android:lineSpacingMultiplier` governs the spacing between lines with a default of "1".
+
+## Inserting HTML Formatting
+
+TextView natively supports [HTML](http://developer.android.com/reference/android/text/Html.html) by translating HTML tags to [spannable](http://developer.android.com/reference/android/text/Spannable.html) sections within the view. To apply basic HTML formatting to text, add text to the TextView with:
+
+```cs
+TextView view = (TextView)FindViewById(Resource.Id.sampleText);
+//Htmlformatted text
+String formattedText = "This <i>is</i> a <b>test</b> of <a href='http://foo.com'>html</a>";
+//Check which build we running on and use the appropriate method
+if (Build.VERSION.SdkInt >= BuildVersionCodes.N)
+{
+    view.Text = (Html.FromHtml(formattedText, FromHtmlOptions.ModeLegacy));
+}
+else { 
+    view.Text = (Html.FromHtml(formattedText));
+}
+```
+
+This results in:
+
+![](http://i.imgur.com/PEl2EKl.png)
+
+Note that all tags are not supported. See [this article](http://javatechig.com/android/display-html-in-android-textview) for a more detailed look at supported tags and usages
+
+
+### Setting Font Colors
+
+For setting font colors, we can use the `<font>` tag as shown:
+
+```cs
+Html.FromHtml("Nice! <font color='#c5c5c5'>This text has a color</font>. This doesn't"); 
+```
+
+And you should be all set. 
+
+### Storing Long HTML Strings
+
+If you want to store your HTML text within `res/values/strings.xml`, you have to use CDATA to escape such as:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<string name="htmlFormattedText">
+    <![CDATA[
+        Please <a href="http://highlight.com">let us know</a> if you have <b>feedback on this</b> or if 
+        you would like to log in with <i>another identity service</i>. Thanks!   
+    ]]>
+</string>
+```
+
+and access the content with `getString(R.string.htmlFormattedText)` to load this within the TextView. 
+
+For more advanced cases, you can also check out the [html-textview](https://github.com/dschuermann/html-textview) library which adds support for almost any HTML tag within this third-party TextView.
+
+## Autolinking URLs
+
+TextView has [native support](http://developer.android.com/reference/android/widget/TextView.html#attr_android:autoLink) for automatically locating URLs within the their text content and making them clickable links which can be opened in the browser. To do this, enable the `android:autolink` property:
+
+```xml
+<TextView
+     android:id="@+id/custom_font"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:autoLink="all"
+     android:linksClickable="true"
+/>
+```
+
+This results in:
+
+![](http://i.imgur.com/73bwaRm.png)
+
+## Displaying Images within a TextView
+
+A TextView is actually surprisingly powerful and actually supports having images displayed as a part of it's content area. Any images stored in the "drawable" folders can actually be embedded within a TextView at several key locations in relation to the text using the [android:drawableRight](http://developer.android.com/reference/android/widget/TextView.html#attr_android:drawableRight) and the `android:drawablePadding` property. For example:
+
+```xml
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"     
+    android:gravity="center"
+    android:text="@string/my_contacts"
+    android:drawableRight="@drawable/ic_action_add_group"
+    android:drawablePadding="8dp"
+/>
+```
+
+Which results in:
+
+![Contacts View](https://i.imgur.com/LoN8jpH.png)
+
+In Android, many views inherit from `TextView` such as `Button`s, `EditText`s, `RadioButton`s which means that all of these views support the same functionality. For example, we can also do:
+
+```xml
+<EditText
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="@string/user_name"
+    android:drawableLeft="@drawable/ic_action_person"
+    android:drawablePadding="8dp"
+/>
+```
+
+Which results in:
+
+![EditText with drawable](https://i.imgur.com/GZiIf1C.png)
+
+The relevant attributes here are `drawableLeft`, `drawableRight`, `drawableTop` and `drawableBottom` along with `drawablePadding`. Check out [this TextView article](http://antonioleiva.com/textview_power_drawables/) for a more detailed look at how to use this functionality. 
+
+Note that if you want to be able to better control the size or scale of the drawables, check out [this handy TextView extension](http://stackoverflow.com/a/31916731/313399) or [this bitmap drawable approach](http://stackoverflow.com/a/29804171/313399). You can also make calls to [setCompoundDrawablesWithIntrinsicBounds](https://groups.google.com/forum/#!topic/android-developers/_Gzbe0KCP_0) on the `TextView`.
+
+## Using Custom Fonts
+
+We can actually use any custom font that we'd like within our applications. Check out [fontsquirrel](http://www.fontsquirrel.com/) for an easy source of free fonts. For example, we can download [Chantelli Antiqua](http://www.fontsquirrel.com/fonts/Chantelli-Antiqua) as an example. 
+
+Fonts are stored in the "assets" folder. In Android Studio, `File > New > folder > Assets Folder`. Now download any font and **place the TTF file in the `assets/fonts` directory**:
+
+![](http://i.imgur.com/2dxTeGY.png)
+
+We're going to use a basic layout file with a `TextView`, marked with an id of "custom_font" so we can access it in our code.
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+ 
+    <TextView
+            android:id="@+id/custom_font"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="This is the Chantelli Antiqua font."
+    />
+</LinearLayout>
+```
+
+To set the custom font manually, open your activity file and insert this into the `onCreate()` method:
+
+```java
+// Get access to our TextView
+TextView txt = (TextView) FindViewById(R.id.custom_font);
+// Create the TypeFace from the TTF asset
+Typeface typeface = Typeface.CreateFromAsset(Assets, "fonts/Chantelli_Antiqua.ttf");
+//Assign the typeface
+view.SetTypeface(typeface, TypefaceStyle.Normal);
+```
+
+Alternatively, you can use the third-party [calligraphy library](https://github.com/chrisjenx/Calligraphy):
+
+```
+<TextView fontPath="fonts/Chantelli_Antiqua.ttf"/>
+```
+
+Either method will will result in:
+
+<img alt="custom" src="http://i.imgur.com/jlTQpEY.png" width="400" />
+
+You'll also want to keep an eye on the total size of your custom fonts, as this can grow quite large if you're using a lot of different typefaces. 
+
+
+## Using Spans to Style Sections of Text
+
+Spans come in really handy when we want to apply styles to portions of text within the same TextView. We can change the text color, change the typeface, add an underline, etc, and apply these to only certain portions of the text. The [full list of spans](http://developer.android.com/reference/android/text/style/package-summary.html) shows all the available options.
+
+As an example, let's say we have a single TextView where we want the first word to show up in red and the second word to have a strikethrough:
+ 
+![Custom](https://i.imgur.com/X9tKFmv.png)
+
+We can accomplish this with spans using the code below:
+
+```cs
+TextView textView = (TextView)FindViewById(Resource.Id.textView);
+var firstWord = "Hello";
+var secondWord = "World";
+
+var redForegroundColorSpan = new ForegroundColorSpan(Color.Red);
+
+// Use a SpannableStringBuilder so that both the text and the spans are mutable
+SpannableStringBuilder ssb = new SpannableStringBuilder(firstWord);
+
+// Apply the color span
+ssb.SetSpan(
+        redForegroundColorSpan,            	// the span to add
+        0,                                 	// the start of the span (inclusive)
+        ssb.Length(),                     	// the end of the span (exclusive)
+        SpanTypes.ExclusiveExclusive); 		// behavior when text is later inserted into the SpannableStringBuilder
+                                            // SPAN_EXCLUSIVE_EXCLUSIVE means to not extend the span when additional
+                                            // text is added in later
+
+// Add a blank space
+ssb.Append(" ");
+
+// Create a span that will strikethrough the text
+StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
+
+// Add the secondWord and apply the strikethrough span to only the second word
+ssb.Append(secondWord);
+ssb.SetSpan(
+        strikethroughSpan,
+    ssb.Length() - secondWord.Length,
+        ssb.Length(),
+    SpanTypes.ExclusiveExclusive);
+
+// Set the TextView text and denote that it is Editable
+// since it's a SpannableStringBuilder
+textView.SetText(ssb, TextView.BufferType.Editable);
+```
+
+Note: There are 3 different classes that can be used to represent text that has markup attached. [SpannableStringBuilder](http://developer.android.com/reference/android/text/SpannableStringBuilder.html) (used above) is the one to use when dealing with mutable spans and mutable text. [SpannableString](http://developer.android.com/reference/android/text/SpannableString.html) is for mutable spans, but immutable text. And [SpannedString](http://developer.android.com/reference/android/text/SpannedString.html) is for immutable spans and immutable text.
 
 
 ## References

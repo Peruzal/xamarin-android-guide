@@ -1,19 +1,5 @@
 # Android Navigation
 
-## Common Navigation Patterns
-
-## Hierarchical Navigation
-
-## Swipe Navigation
-
-## Tabbed Navigation
-
-## Navigation Drawer Navigation
-
-## Bottom Navigation
-
-## Navigation and Task Stacks
-
 ## Common Navigation Paradigms
 
 Navigation between views is an important part of any application. There are several ways to setup navigation in an Android application:

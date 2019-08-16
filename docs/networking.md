@@ -1,17 +1,5 @@
 # Networking in Android
 
-## Network Security
-
-## Permissions
-
-## Making a Network Call
-
-## Making a GET Request
-
-## Making a POST Request
-
-## Parsing JSON data from the network
-
 ## Making a Networking Call
 
 Network requests are used to retrieve or modify API data or media from a server. This is a very common task in Android development especially for dynamic data-driven clients.
