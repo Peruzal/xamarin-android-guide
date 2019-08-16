@@ -1,7 +1,8 @@
 site_name: Xamarin Android Guide - Peruzal
-repo_url: https://github.com/Peruzal/xamarin-android-guide
+
 theme:
   name: material
+  custom_dir: 'theme'
   logo: 'images/logo.png'
   favicon: 'images/favicon.ico'
   palette:
@@ -17,12 +18,19 @@ markdown_extensions:
   - pymdownx.mark
   - pymdownx.arithmatex
 
-google_analytics:
-  - 'UA-40772582-8'
-  - 'auto'
+site_url: https://github.com/Peruzal/xamarin-android-guide
+repo_url: https://github.com/Peruzal/xamarin-android-guide
+repo_name: 'Github'
+
+# google_analytics:
+#   - 'UA-40772582-8'
+#   - 'auto'
 
 extra_javascript:
   - 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'
+  - 'assets/js/utils.js'
+  - 'assets/js/mixpanel.js'
+  - 'assets/js/track.js'
 
 
 copyright: 'Copyright &copy; 2019 - <a href="https://www.peruzal.com">Peruzal</a>'

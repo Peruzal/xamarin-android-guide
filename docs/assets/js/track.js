@@ -1,6 +1,6 @@
 (function(){
     'use strict';
     waitForPageLoad(function(){
-        mixpanel.tract('Page View', window.location.href);
+        mixpanel.track(`${window.location.pathname}`);
     });
 })();
