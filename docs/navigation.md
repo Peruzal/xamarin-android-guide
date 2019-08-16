@@ -11,19 +11,6 @@ Navigation between views is an important part of any application. There are seve
 
 These four represent the most common navigation paradigms in Android applications. The specifics for how to implement these can be found in the various links above.
 
-### Swiping Views
-
-Check out the [[ViewPager with FragmentPagerAdapter]] cliffnotes for more details of how to add swipe-able views as a form of navigation. We can use a [[tab indicator|Sliding-Tabs-with-PagerSlidingTabStrip]] to display tabs on top of a swiping view.
-
-### Navigation Drawer
-
-To create a basic navigation drawer that toggles between displaying different fragments, check out the
-[[Fragment Navigation Drawer]] cliffnotes. For more details about creating a custom drawer check out the [Creating a Navigation Drawer](http://developer.android.com/training/implementing-navigation/nav-drawer.html#top) docs.  
-
-### ActionBar Tabs
-
-Note that **ActionBar Tabs is deprecated** since Android API 21. The new way is to use the `TabLayout`.
-
 
 ## Stack Based Navigation Navigation with Intents
 
@@ -164,9 +151,10 @@ Implicit Intents are requests to perform an action based on a desired action and
   StartActivity(callIntent);
 ```
 
-{{< note title="Permission Required" >}}
-You will need permission in order to make a phone call. Add the `android.permission.CALL_PHONE` in the `AndroidManifest.xml`. For more on permissions read this blog post, <https://blog.xamarin.com/requesting-runtime-permissions-in-android-marshmallow/>
-{{< /note >}}
+!!! danger "Permission is required"
+    You will need permission in order to make a phone call. Add the `android.permission.CALL_PHONE` in the `AndroidManifest.xml`. For more on permissions read this blog post, <https://blog.xamarin.com/requesting-runtime-permissions-in-android-marshmallow/>
+
+
 
 If I want to launch a website in the phone's browser, I might do this:
 
@@ -174,8 +162,6 @@ If I want to launch a website in the phone's browser, I might do this:
 Intent browserIntent = new Intent(Intent.ActionView, Android.Net.Uri.Parse("http://www.google.com"));
 StartActivity(browserIntent);
 ```
-
-You can see a list of other [Common Intents]({{< relref "common-intents/index.md" >}}).
 
 ### Receiving Implicit Intents
 
@@ -519,9 +505,9 @@ The navigation drawer is a panel that displays the app’s main navigation optio
 
 <img src="https://i.imgur.com/hPOFJUf.gif" width="350" />
 
-{{< note title="Navigation Drawer Design" >}}
-Before you decide to use a navigation drawer in your app, you should understand the use cases and design principles defined in the [Navigation Drawer](https://developer.android.com/design/patterns/navigation-drawer.html) design guide.
-{{< /note >}}
+!!! note "Navigation Drawer Design"
+    Before you decide to use a navigation drawer in your app, you should understand the use cases and design principles defined in the [Navigation Drawer](https://developer.android.com/design/patterns/navigation-drawer.html) design guide.
+
 
 ### Usage
 
@@ -598,7 +584,8 @@ Create a new layout file `res/layout/toolbar.xml` with the following code:
 </android.support.v7.widget.Toolbar>
 ```
 
-Note that when the `android:fitsSystemWindows` attribute is set to true for a view, the view would be laid out as if the `StatusBar` and the ActionBar were present i.e. the UI on top gets padding enough to not be obscured by the navigation bar. Without this attribute, there is not enough padding factored into consideration for the ToolBar:
+!!! note
+    Note that when the `android:fitsSystemWindows` attribute is set to true for a view, the view would be laid out as if the `StatusBar` and the ActionBar were present i.e. the UI on top gets padding enough to not be obscured by the navigation bar. Without this attribute, there is not enough padding factored into consideration for the ToolBar:
 
 <img src="http://imgur.com/HaOAmoh.png"/>
 
@@ -617,13 +604,15 @@ To use the `Toolbar` as an `ActionBar`, you need to disable the default `ActionB
 </resources>
 ```
 
-{{< warning title="Warning">}}
-If you forget to disable the ActionBar in styles.xml, you are likely to see an error message that reads "This Activity already has an action bar supplied by the window decor. Do not request Window.FEATURE_ACTION_BAR and set windowActionBar to false in your theme to use a Toolbar instead". If you see this message, you need to make sure to follow the previous steps.
-{{< /warning >}}
+!!! warning
+    If you forget to disable the ActionBar in styles.xml, you are likely to see an error message that reads "This Activity already has an action bar supplied by the window decor. Do not request Window.FEATURE_ACTION_BAR and set windowActionBar to false in your theme to use a Toolbar instead". If you see this message, you need to make sure to follow the previous steps.
 
 **Setup Drawer in Activity**
 
-Next, let’s setup a basic navigation drawer based on the following layout file which has the entire drawer setup in `res/layout/activity_main.xml`. Note that the Toolbar is added as the first child of the main content view by adding the include tag.
+Next, let’s setup a basic navigation drawer based on the following layout file which has the entire drawer setup in `res/layout/activity_main.xml`. 
+
+!!!
+    Note that the Toolbar is added as the first child of the main content view by adding the include tag.
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -659,7 +648,9 @@ Next, let’s setup a basic navigation drawer based on the following layout file
 ```
 
 Now, let’s setup the drawer in our activity. We can also setup the menu icon too.
-Note: Make sure you implement the correct `OnPostCreate(Bundle savedInstanceState)` method. There are 2 signatures and only `OnPostCreate(Bundle state)` shows the hamburger icon.
+
+!!! note
+    Make sure you implement the correct `OnPostCreate(Bundle savedInstanceState)` method. There are 2 signatures and only `OnPostCreate(Bundle state)` shows the hamburger icon.
 
 ```cs
 using Android.App;

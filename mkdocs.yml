@@ -10,6 +10,7 @@ theme:
     accent: 'orange'
 
 markdown_extensions:
+  - meta
   - admonition
   - codehilite: 
       linenums: true
@@ -17,6 +18,13 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.mark
   - pymdownx.arithmatex
+  - toc:
+      permalink: true
+
+plugins:
+  - search
+  - minify:
+      minify_html: true    
 
 site_url: https://github.com/Peruzal/xamarin-android-guide
 repo_url: https://github.com/Peruzal/xamarin-android-guide
@@ -31,6 +39,7 @@ extra_javascript:
   - 'assets/js/utils.js'
   - 'assets/js/mixpanel.js'
   - 'assets/js/track.js'
+  - 'assets/js/drift.js'
 
 
 copyright: 'Copyright &copy; 2019 - <a href="https://www.peruzal.com">Peruzal</a>'

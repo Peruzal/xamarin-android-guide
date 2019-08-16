@@ -146,13 +146,13 @@ var username = etUsername.Text;
    android:inputType="textMultiLine" />
 ```
 
-### Displaying Floating Label Feedback
+## TextInputLayout
 
 Traditionally, the `EditText` hides the `hint` message (explained above) after the user starts typing. In addition, any validation error messages had to be managed manually by the developer. 
 
 <img src="https://i.imgur.com/UM7NmiK.gif" alt="floating" width="400" />
 
-Starting with Android M and the  [Design Support Library]({{< ref "design-support-library/index.md" >}}), the `TextInputLayout` can be used to setup a floating label to display hints and error messages. First, wrap the `EditText` in a `TextInputLayout`:
+Starting with Android M the `TextInputLayout` can be used to setup a floating label to display hints and error messages. First, wrap the `EditText` in a `TextInputLayout`:
 
 
 ```xml
@@ -182,7 +182,7 @@ We can also use the `TextInputLayout` to display error messages using the `SetEr
 
 <img src="http://imgur.com/eEYwIO3.png"/>
 
-The `TextInputLayout` simply needs to define `app:counterEnabled` and `app:CounterMaxLength` in the XML attributes.  These settings can also be defined dynamically through `setCounterEnabled()` and `setCounterMaxLength()`:
+The `TextInputLayout` simply needs to define `app:counterEnabled` and `app:CounterMaxLength` in the XML attributes.  These settings can also be defined dynamically through `SetCounterEnabled()` and `SetCounterMaxLength()`:
 
 ```xml
 <android.support.design.widget.TextInputLayout
