@@ -175,7 +175,7 @@ public MovieAdapter(List<string> titles)
 ```
 
 
-The complete adater class should be as follows:
+The complete adapter class should be as follows:
 
 ```csharp
 public class MovieAdapter : RecyclerView.Adapter
