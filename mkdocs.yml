@@ -47,7 +47,6 @@ copyright: 'Copyright &copy; 2019 - <a href="https://www.peruzal.com">Peruzal</a
 nav:
   - Introduction: index.md
   - Hello Xamarin.Android: hello-xamarin-android.md
-  - Android Components: android-components.md
   - Android Views: android-views.md
   - Common Views: common-views.md
   - Menus: menus.md
@@ -60,15 +59,10 @@ nav:
   - Dialogs and Pickers: dialogs.md
   - Common Intents: common-intents.md
   - Networking: networking.md
-  - Permissions: permissions.md
   - Persistence: persistence.md
   - Styles and Themes: styles-and-themes.md
   - Animation: animations.md
   - Notifications: notifications.md
   - Broadcast Receivers: broadcast-receivers.md
   - Services: services.md
-  - Scheduling Alarms: scheduling-alarms.md
-  - Maps and Location: maps-and-location.md
-  - Testing: testing.md
   - Third Party Libraries: third-party-libraries.md
-  - Deployment: deployment.md

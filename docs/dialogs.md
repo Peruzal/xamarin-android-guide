@@ -169,7 +169,7 @@ button.Click += delegate {
 
 ## Time Picker Dialog
 
-![Time Picker](/images/time-picker.png)
+![Time Picker](images/time-picker.png)
 
 The procedure is the same as setting the date, we need to host the `TimerPickerDialog` in a `DialogFragment`.
 

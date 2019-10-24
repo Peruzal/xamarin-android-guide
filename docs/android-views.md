@@ -237,8 +237,7 @@ The view can be customized using appearance attributes. Some attributes e.g andr
 Android views can be created with either code or `XML`. The most common way is to create Android UIs using XML.
 Views are created inside layouts. Layouts are the container views.
 
-![alt](/images/android-common-views.png)
-
+![Common Views][1]
 
 ### View dimensions
 
@@ -274,3 +273,6 @@ The following `TextView`
 on a 480dpi screen would be
 
 $100dp * \frac{480dpi}{160} = 300px$
+
+
+[1]: images/android-common-views.png

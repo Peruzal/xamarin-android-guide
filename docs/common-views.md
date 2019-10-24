@@ -10,7 +10,7 @@ There are three standard types of buttons:
 - `Raised button`: A typically rectangular material button that lifts and displays ink reactions on press.
 - `Flat button`: A button made of ink that displays ink reactions on press but does not lift.
 
-![Button Types](/images/buttons.png)
+![Button Types](images/buttons.png)
 
 To create a button with text, use the following XML :
 
@@ -119,7 +119,7 @@ Touching a text field makes the two actions occur:
 - Places the cursor there
 - Displays the keyboard
 
-![Textfiled](/images/textfield.png)
+![Textfiled](images/textfield.png)
 
 ### Retrieving the Value
 
@@ -472,7 +472,7 @@ A button that displays an image and its clickable.
 
 Radio buttons allow the user to select one option from a set. You should use radio buttons for optional sets that are mutually exclusive if you think that the user needs to see all available options side-by-side. If it's not necessary to show all options side-by-side, use a spinner instead.
 
-![Radio Buttons](/images/radio-buttons.png)
+![Radio Buttons](images/radio-buttons.png)
 
 
 To create each radio button option, create a RadioButton in your layout. However, because radio buttons are mutually exclusive, you must group them together inside a RadioGroup. By grouping them together, the system ensures that only one radio button can be selected at a time.
@@ -548,7 +548,7 @@ A plain rectangle that can be used as a divider.
 
 Spinners provide a quick way to select one value from a set. In the default state, a spinner shows its currently selected value. Touching the spinner displays a dropdown menu with all other available values, from which the user can select a new one.
 
-![Spinner](/images/spinner.png)
+![Spinner](images/spinner.png)
 
 ```xml
 <Spinner

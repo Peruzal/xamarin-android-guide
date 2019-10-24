@@ -54,7 +54,7 @@ Example of LinearLayout snippet:
 
 Will produce something like the image below. Note that the `android:orientation` is set to `vertical.`
 
-![Linear Layout](/images/linear-layout.png)
+![Linear Layout](images/linear-layout.png)
 
 ### Linear Layout Horizontal orientation
 
@@ -83,17 +83,17 @@ We will group two buttons side by side using a linear layout in horizontal orien
 
 And will produce something like the image below :
 
-![Linear Layout Horizontal Orientation](/images/linear-layout-horizontal.png)
+![Linear Layout Horizontal Orientation](images/linear-layout-horizontal.png)
 
 ### Distribute Widths with Layout Weight
 
 To distribute the width in a linear layout we use the `android:layout_weight` property. We can also distribute the height using the same property. Lets make the buttons take equally the same space. Notice that the `android:layout_width` needs to be `match_parent` for both buttons and the`android:layout_weight` will be used to proportionally divide the space.
 
-![Linear Layout Weight](/images/linear-layout-weight.png)
+![Linear Layout Weight](images/linear-layout-weight.png)
 
 And we can make the Login button take all the remaining space by just giving it the `android:layout_weight=1` and `wrap_content` on the Sign Up button as per the picture below.
 
-![Linear Layout Weight Demo](/images/linear-layout-weight-demo.png)
+![Linear Layout Weight Demo](images/linear-layout-weight-demo.png)
 
 
 
@@ -178,7 +178,7 @@ The `android:layout_gravity` is used to position the view within its parent. We 
 
 In the image below the `android:layout_gravity` property is used to place the `Send` button to the right :
 
-![Layout Gravity](/images/layout-gravity.png)
+![Layout Gravity](images/layout-gravity.png)
 
 ### Nesting Layouts
 
@@ -223,7 +223,7 @@ We can nest a LinearLayout inside another LinearLayout. For performance you shou
 
 Will look like the image below :
 
-![Linear Layout Nested](/images/linear-layout-nested.png)
+![Linear Layout Nested](images/linear-layout-nested.png)
 
 ## RelativeLayout
 
@@ -273,7 +273,7 @@ An example of a RelativeLayout:
 
 Will have produce a layout as below :
 
-![Relative Layout](/images/relative-layout.png)
+![Relative Layout](images/relative-layout.png)
 
 and another example of a Realtive Layout :
 
@@ -329,7 +329,7 @@ Note the spinner entries are defined in the `arrays.xml` file as follows :
 
 and will produce the image as below : 
 
-![Relative Layout Demo](/images/relative-layout-demo.png)
+![Relative Layout Demo](images/relative-layout-demo.png)
 
 Read [this RelativeLayout tutorial](http://code.tutsplus.com/tutorials/android-user-interface-design-relative-layouts--mobile-4301) for a more detailed overview. You can also see more about this layout by inspecting the [RelativeLayout.LayoutParams docs](http://developer.android.com/reference/android/widget/RelativeLayout.LayoutParams.html) and the official [RelativeLayout guide](http://developer.android.com/guide/topics/ui/layout/relative.html).
 
@@ -378,7 +378,7 @@ bg.xml
 
 Will produce the output as in the following picture :
 
-![Complex Relative Layout](/images/relative-layout-complex.png)
+![Complex Relative Layout](images/relative-layout-complex.png)
 
 ### Using Alignment to Control Width or Height
 
